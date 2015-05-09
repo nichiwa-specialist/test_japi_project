@@ -1,28 +1,26 @@
 <html>
 <head>
 <title>test</title>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript">
 $(function() {
 	$("#reg_btn").click(function() {
-		var data = [];
-		data['token']  = 'aaa';
-		data['date']   = '2012-08-01';
-		data['lat']    = '30.2';
-		data['lon']    = '130.5';
-		data['range']  = '1.0';
-		data['format'] = 'JSON';
+		var user_token = $("#token").val();
 		$.ajax({
 			type: "get",
-			url: "https://joa.epi.bz/api/prcall",
-			cache: false,
-			dataType: "json",
-			data: data,
-			success: function(result) {
-				alert('success');
+			url: "https://joa.epi.bz/api/prcall?token="+user_token+"&date=2012-08-01&lat=30.2&lon=130.5&range=1.0&format=jsonp&callback=joa_callback",
+			cache: false,	
+			dataType: "jsonp",
+			jsonpCallback: "joa_callback",
+			success: function(json) {
+				$.each(json.values, function(i, item){
+			      		$('#area').prepend("lat:" + item.lat + " lon:" + item.lon + " prc:" + item.prc + '<br>');
+				});
 			},
-			error: function(xhm) {
-				alert(xhm.message);
+			error: function(xhr, textStatus, error) {
+				alert(xhr.status + " / " + textStatus + " / " + error);
+			},
+			complete: function() {
 			}
 		});
 	});
@@ -31,5 +29,8 @@ $(function() {
 </head>
 <body>
 <input type="button" name="reg_btn" id="reg_btn" value="GO" />
+<input type="text" name="token" id="token" value="" />
+<div id="area">
+</div>
 </body>
 </html>
