@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>test</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#reg_btn").click(function() {
+		var data = [];
+		data['token']  = 'aaa';
+		data['date']   = '2012-08-01';
+		data['lat']    = '30.2';
+		data['lon']    = '130.5';
+		data['range']  = '1.0';
+		data['format'] = 'JSON';
+		$.ajax({
+			type: "get",
+			url: "https://joa.epi.bz/api/prcall",
+			cache: false,
+			dataType: "json",
+			data: data,
+			success: function(result) {
+				alert('success');
+			},
+			error: function(xhm) {
+				alert(xhm.message);
+			}
+		});
+	});
+});
+</script>
+</head>
+<body>
+<input type="button" name="reg_btn" id="reg_btn" value="GO" />
+</body>
+</html>
